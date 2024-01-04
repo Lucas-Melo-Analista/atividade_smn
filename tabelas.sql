@@ -1,0 +1,43 @@
+CREATE TABLE cnaes (
+		id SMALLINT PRIMARY KEY IDENTITY,
+		cnae INT NOT NULL UNIQUE
+	);
+
+	CREATE TABLE tipos_premiacoes (
+		id TINYINT PRIMARY KEY IDENTITY,
+		nome VARCHAR (45) UNIQUE
+	);
+
+	CREATE TABLE rankings (
+		id TINYINT PRIMARY KEY IDENTITY,
+		nome VARCHAR (45) NOT NULL UNIQUE,
+		valor MONEY NOT NULL
+	);
+
+	CREATE TABLE empresas (
+		id INT PRIMARY KEY IDENTITY,
+		razao_social VARCHAR (150) NOT NULL,
+		nome_fantasia VARCHAR (150) NOT NULL,
+		cnpj BIGINT NOT NULL UNIQUE,
+		inscricao_estadual BIGINT,
+		inscricao_municipal BIGINT NOT NULL UNIQUE,
+		email VARCHAR (100) NOT NULL UNIQUE,
+		telefone BIGINT NOT NULL UNIQUE
+	);
+
+	CREATE TABLE premiacoes (
+		id INT PRIMARY KEY IDENTITY,
+		ranking_id TINYINT NOT NULL REFERENCES RANKINGS (id),
+		tipo_id TINYINT NOT NULL REFERENCES TIPOS_PREMIACOES (id),
+		empresa_id INT NOT NULL REFERENCES EMPRESAS (id),
+		valor_premiacao_atual MONEY,
+		mes TINYINT NOT NULL,
+		ano SMALLINT NOT NULL
+	);
+
+	CREATE TABLE cnaes_has_empresas (
+		id SMALLINT PRIMARY KEY IDENTITY,
+		cnaes_id SMALLINT NOT NULL REFERENCES CNAES (id),
+		empresa_id INT NOT NULL REFERENCES EMPRESAS (id),
+		status BIT NOT NULL
+	);
